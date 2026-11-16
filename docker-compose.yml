@@ -1,0 +1,19 @@
+services:
+  duplicati:
+    image: duplicati/duplicati:latest
+    container_name: duplicati-staging
+    restart: unless-stopped
+
+    ports:
+      - "127.0.0.1:8200:8200"
+
+    environment:
+      DUPLICATI__WEBSERVICE_PASSWORD: ${DUPLICATI_WEB_PASSWORD:?Set DUPLICATI_WEB_PASSWORD}
+      DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES: duplicati-staging.server.hostbucket.in
+      SETTINGS_ENCRYPTION_KEY: ${SETTINGS_ENCRYPTION_KEY:?Set SETTINGS_ENCRYPTION_KEY}
+
+    volumes:
+      - duplicati_data:/data
+
+volumes:
+  duplicati_data:
